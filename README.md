@@ -30,6 +30,8 @@ init_db()
 export FLASK_ENV=development
 export FLASK_APP=commerceretail
 flask run
+
+// por ultimo, se debe registrar en la aplicacion y luego iniciar sesion
 ```
 
 _Para el PUNTO 2 solo se requiere ejecutar el script de python:_
