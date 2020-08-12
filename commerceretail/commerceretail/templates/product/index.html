@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Modulo de Productos</h1>
+    <a href="{{ url_for('product.create') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-user-plus fa-sm text-white-50"></i> Agregar Productos</a>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="table-responsive">
+            <table id="dtProducts" class="table datatable" style="width:100%">
+                <thead>
+                <tr>
+                    <th class="th-sm">Código</th>
+                    <th class="th-sm">Categoría</th>
+                    <th class="th-sm">Nombre</th>
+                    <th class="th-sm">Precio</th>
+                    <th class="th-sm">Cantidad en Bodega</th>
+                    <th class="th-sm">Estado</th>
+                    <th class="th-sm">Opciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                        <tr>
+                            <td>{{ product.codigo }}</td>
+                            <td>{{ product.categoria.descripcion }}</td>
+                            <td>{{ product.nombre }}</td>
+                            <td>{{ product.precio }}</td>
+                            <td>{{ product.cantidad_en_bodega }}</td>
+                            <td>
+                                {% if product.estado == True %}
+                                Activo
+                                {% else %}
+                                Inactivo
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{{ url_for('product.update', id=product.id) }}" class="btn btn-primary btn-circle btn-sm" data-toggle="tooltip" data-placement="top" title="Editar">
+                                    <i class="fas fa-user-edit"></i>
+                                </a>
+                                <a href="{{ url_for('product.delete', id=product.id) }}" class="btn btn-danger btn-circle btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% if not loop.last %}
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scriptjs %}
+<script>
+    $(document).ready(function(){
+        $("#dtProducts").DataTable({
+            "paging": true
+        });
+        $('.dataTables_length').addClass('bs-select')
+    });
+
+</script>
+
+{% endblock %}

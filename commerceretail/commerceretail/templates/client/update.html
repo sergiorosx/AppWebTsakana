@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Editar Cliente</h1>
+    <a href="{{ url_for('client.index') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-arrow-circle-left fa-sm text-white-50"></i> Volver al listado</a>
+</div>
+
+<form method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="id" id="id" value="{{ client.id }}">
+    <div class="form-group">
+      <label for="cedula">Cédula</label>
+      <input type="number" class="form-control" name="cedula" id="cedula" placeholder="Ingrese una cédula" value="{{ client.cedula }}">
+    </div>
+    <div class="form-group">
+      <label for="nombre">Nombre</label>
+      <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Ingrese un nombre" value="{{ client.nombre }}">
+    </div>
+    <div class="form-group">
+        <label for="direccion">Dirección</label>
+        <input type="text" class="form-control" name="direccion" id="direccion" placeholder="Ingrese una dirección" value="{{ client.direccion }}">
+      </div>
+      <div class="form-group">
+        <label for="telefono">Teléfono</label>
+        <input type="tel" class="form-control" name="telefono" id="telefono" placeholder="Ingrese un teléfono" value="{{ client.telefono }}">
+      </div>
+      <div class="form-group">
+        <label for="foto">Foto</label>
+        <input type="file" class="form-control" name="foto" id="foto">
+        <img id="selectfoto" src="{{ url_for('client.showimg', id=client.id )}}" style="width: 5em;">
+      </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    {% for message in get_flashed_messages() %}
+        <div class="flash">{{ message }}</div>
+    {% endfor %}
+  </form>
+  {% endblock %}
+
+
+{% block scriptjs %}
+<script>
+    $(document).ready(function(){
+        $("#foto").change(function(event){
+            var reader = new FileReader();
+            reader.onload = function(){
+            var output = document.getElementById('selectfoto');
+            output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        });
+      });
+</script>
+
+{% endblock %}
